@@ -1,5 +1,5 @@
 const fs = require("fs");
-const path = "../../dbjson/productsDb.json";
+const path = "../dbjson/productsDb.json";
 class ProductsManagerFs {
   constructor() {
     this.path = path;
@@ -20,6 +20,7 @@ class ProductsManagerFs {
   getProducts = async () => {
     try {
       const products = await this.readProducts();
+      console.log("Productos obtenidos:", products);
       return products;
     } catch (error) {
       console.log(error);
@@ -32,18 +33,21 @@ class ProductsManagerFs {
       if (duplicated) {
         return { error: "The product you entered is already in the list" };
       }
-      if (typeof newProduct.title != "string" || newProduct.title == "") {
+      if (
+        typeof newProduct.title != "string" ||
+        newProduct.title.trim() == ""
+      ) {
         throw new Error("Verify the title");
       } else if (
         typeof newProduct.description != "string" ||
-        newProduct.description == ""
+        newProduct.description.trim() == ""
       ) {
         throw new Error("Verify the description");
       } else if (typeof newProduct.stock != "number") {
         throw new Error("Verify the stock");
       } else if (
         typeof newProduct.category != "string" ||
-        newProduct.category == ""
+        newProduct.category.trim() == ""
       ) {
         throw new Error("Verify the category");
       }
